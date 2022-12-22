@@ -51,12 +51,4 @@ A aplicação e banco de dados está rodando em servidores e serviços indempend
 ### Autor
 ---
 
-<a href="https://www.aldairazevedo.com/">
- <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/92351689?v=4" width="100px;" alt=""/>
- <br />
- <sub><b>Aldair Azevedo</b></sub></a> <a href="https://www.aldairazevedo.com/" title="Aldair Azevedo">🚀</a>
-
-
 Feito com ❤️ por Aldair Azevedo 👋🏽 Entre em contato!
-
-[![Linkedin Badge]](https://www.linkedin.com/in/aldair-azevedo/)
