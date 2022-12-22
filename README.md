@@ -2,6 +2,9 @@
 <h1 align="center">
     <a href="https://ecomerce-back-end-dh.herokuapp.com/">🔗 API Ecomerce DH</a>
 </h1>
+<h3 align="center">
+    <a href="https://documenter.getpostman.com/view/15852789/2s8Z6u6FRZ">🔗 Documentação</a>
+</h3>
 <p align="center">🚀 Esta é uma API REST do projeto integrador (PI) do curso de Dev Web Ful Stack da Digital House</p>
 
 <h4 align="center"> 
