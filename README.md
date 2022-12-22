@@ -3,12 +3,7 @@
     <a href="https://ecomerce-back-end-dh.herokuapp.com/">🔗 API Ecomerce DH</a>
 </h1>
 <p align="center">🚀 Esta é uma API REST do projeto integrador (PI) do curso de Dev Web Ful Stack da Digital House</p>
-<p align="center">
- <a href="#objetivo">Objetivo</a> •
- <a href="#roadmap">Documentação</a> • 
- <a href="#tecnologias">Tecnologias</a> • 
- <a href="#autor">Autor</a>
-</p>
+
 <h4 align="center"> 
 	🚧 🚀 Em construção...  🚧
 </h4>
