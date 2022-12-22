@@ -1,6 +1,6 @@
 <h1 align="center">PROJETO INTEGRADOR DIGITAL HOUSE</h1>
 <h1 align="center">
-    <a href="https://ecomerce-back-end-dh.herokuapp.com/">🔗 React</a>
+    <a href="https://ecomerce-back-end-dh.herokuapp.com/">🔗 API Ecomerce DH</a>
 </h1>
 <p align="center">🚀 Esta é uma API do projeto integrador (PI) do curso de Dev Web Ful Stack da Digital House</p>
 <p align="center">
