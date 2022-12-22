@@ -30,3 +30,33 @@ $ npm install ou yarn
 $ yarn dev
 
 # O servidor inciará na porta:5555 - acesse <http://localhost:5555>
+
+### 🛠 Tecnologias
+
+As seguintes ferramentas foram usadas na construção do projeto:
+
+- [NodeJS](https://nodejs.org/en/)
+- [Express](https://expressjs.com/pt-br/)
+- [Sequelize](https://sequelize.org/)
+- [MySQL](https://www.mysql.com/)
+- [pm2](https://pm2.keymetrics.io/)
+
+### ⚙ Arquitetura
+
+A aplicação e banco de dados está rodando em servidores e serviços indempendente:
+
+- [API - Heroku](https://heroku.com/)
+- [Banco de dados - Hostinger](https://www.hostinger.com.br/)
+
+### Autor
+---
+
+<a href="https://www.aldairazevedo.com/">
+ <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/92351689?v=4" width="100px;" alt=""/>
+ <br />
+ <sub><b>Aldair Azevedo</b></sub></a> <a href="https://www.aldairazevedo.com/" title="Aldair Azevedo">🚀</a>
+
+
+Feito com ❤️ por Aldair Azevedo 👋🏽 Entre em contato!
+
+[![Linkedin Badge]](https://www.linkedin.com/in/aldair-azevedo/)
