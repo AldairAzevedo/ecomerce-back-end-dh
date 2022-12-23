@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 
 import PurchaseModel from '../../models/purchase/purchaseModel.js';
 import ItemModel from '../../models/items/itemsModel.js';
+import ProductModel from '../../models/product/productModel.js';
 
 export const createPurchaseService = async (data) => {
   let status = 400;
@@ -118,18 +119,90 @@ export const createPurchaseService = async (data) => {
   };
 };
 
-// export const FinalizePurchaseService = async (data) => {
-//   let status = 400;
-//   let message = '';
+export const listPurchaseService = async (data) => {
+  let status = 400;
+  let message = '';
 
-//   try {
+  try {
+    const listPurchase = await PurchaseModel.findAll({
+      attributes: {
+        exclude: ['updatedAt', 'createdAt', 'payment_type', 'id_user', 'situation']
+      },
+      where: {
+        id_user: data.id_user,
+        situation: 'CA'
+      }
+    });
 
-//     status = 201;
-//     message = 'Produto adicionado no carrinho!';
+    const listItem = await ItemModel.findAll({
+      attributes: {
+        exclude: ['updatedAt', 'createdAt', 'id_purc', 'id_prod']
+      },
+      include: [
+        {
+          model: PurchaseModel,
+          attributes: {
+            exclude: ['updatedAt', 'createdAt', 'id_user', 'payment_type', 'id', 'situation', 'discount', 'gross_price', 'net_price']
+          },
+          where: {
+            id_user: data.id_user,
+            situation: 'CA'
+          },
+          required: true
+        },
+        {
+          model: ProductModel,
+          attributes: {
+            exclude: ['id', 'description', 'inventory', 'active', 'updatedAt', 'createdAt', 'id_cat']
+          },
+          where: {
+            active: 'A'
+          },
+          required: true
+        }
+      ]
+    });
 
-//     return { status, message };
+    const returnFinal = listPurchase.concat(listItem);
 
-//   } catch (e) {
-//     throw new Error(e);
-//   };
-// };
+    status = 200;
+    message = returnFinal;
+
+    return { status, message };
+
+  } catch (e) {
+    throw new Error(e);
+  };
+};
+
+export const updatePurchaseService = async (data) => {
+  let status = 400;
+  let message = '';
+
+  try {
+
+    status = 200;
+    message = returnFinal;
+
+    return { status, message };
+
+  } catch (e) {
+    throw new Error(e);
+  };
+};
+
+export const finalizePurchaseService = async (data) => {
+  let status = 400;
+  let message = '';
+
+  try {
+
+    status = 200;
+    message = returnFinal;
+
+    return { status, message };
+
+  } catch (e) {
+    throw new Error(e);
+  };
+};
