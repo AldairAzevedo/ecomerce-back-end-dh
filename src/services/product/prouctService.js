@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 
 import ProductModel from "../../models/product/productModel.js";
+import CategoryModel from "../../models/category/categoryModel.js";
 
 export const createProductService = async (data) => {
   let status = 400;
@@ -47,7 +48,16 @@ export const listProductParamsService = async (data) => {
         }
       },
       attributes: {
-        exclude: ['createdAt', 'updatedAt']
+        exclude: ['createdAt', 'updatedAt', 'id_cat']
+      },
+      include: {
+        model: CategoryModel,
+        attributes: {
+          exclude: ['id', 'description', 'active', 'createdAt', 'updatedAt']
+        },
+        where: {
+          active: "A"
+        }
       }
     });
 
