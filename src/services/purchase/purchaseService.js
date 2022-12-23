@@ -136,7 +136,7 @@ export const listPurchaseService = async (data) => {
 
     const listItem = await ItemModel.findAll({
       attributes: {
-        exclude: ['updatedAt', 'createdAt', 'id_purc', 'id_prod']
+        exclude: ['updatedAt', 'createdAt', 'id_purc', 'id_prod', 'id']
       },
       include: [
         {
@@ -153,7 +153,7 @@ export const listPurchaseService = async (data) => {
         {
           model: ProductModel,
           attributes: {
-            exclude: ['id', 'description', 'inventory', 'active', 'updatedAt', 'createdAt', 'id_cat']
+            exclude: ['description', 'inventory', 'active', 'updatedAt', 'createdAt', 'id_cat']
           },
           where: {
             active: 'A'
@@ -180,9 +180,112 @@ export const updatePurchaseService = async (data) => {
   let message = '';
 
   try {
+    const listPurchase = await ItemModel.findAll({
+      attributes: {
+        exclude: ['updatedAt', 'createdAt', 'id', 'id_purc', 'id_prod']
+      },
+      where: {
+        id_prod: data.id_product
+      },
+      include: [
+        {
+          model: PurchaseModel,
+          attributes: {
+            exclude: ['updatedAt', 'createdAt', 'id_user', 'payment_type', 'situation', 'id']
+          },
+          where: {
+            id: data.id_purchase,
+            situation: 'CA'
+          },
+          required: true
+        },
+        {
+          model: ProductModel,
+          attributes: {
+            exclude: ['id', 'name', 'description', 'inventory', 'photo', 'active', 'createdAt', 'updatedAt', 'id_cat']
+          },
+          where: {
+            id: data.id_product,
+            active: 'A'
+          },
+          required: true
+        }
+      ]
+    });
+
+    const purchaseJson = JSON.stringify(listPurchase);
+    const purchaseObject = JSON.parse(purchaseJson);
+
+    if (data.option === 'add') {
+      const dataItem = {
+        quantity: purchaseObject[0].quantity + 1
+      };
+
+      const dataPurchase = {
+        discount: purchaseObject[0].purchase.discount + purchaseObject[0].product.discount,
+        gross_price: purchaseObject[0].purchase.gross_price + purchaseObject[0].product.price,
+        net_price: purchaseObject[0].purchase.net_price + (purchaseObject[0].product.price - purchaseObject[0].product.discount)
+      };
+
+      const itemUpdate = await ItemModel.update(
+        {
+          quantity: dataItem.quantity
+        },
+        {
+          where: {
+            id_purc: data.id_purchase,
+            id_prod: data.id_product
+          }
+        }
+      );
+
+      const purchaseUpdate = await PurchaseModel.update(
+        {
+          discount: dataPurchase.discount,
+          gross_price: dataPurchase.gross_price,
+          net_price: dataPurchase.net_price
+        },
+        {
+          where: { id: data.id_purchase }
+        }
+      );
+    } else {
+      const dataItem = {
+        quantity: purchaseObject[0].quantity - 1
+      };
+
+      const dataPurchase = {
+        discount: purchaseObject[0].purchase.discount - purchaseObject[0].product.discount,
+        gross_price: purchaseObject[0].purchase.gross_price - purchaseObject[0].product.price,
+        net_price: purchaseObject[0].purchase.net_price - (purchaseObject[0].product.price - purchaseObject[0].product.discount)
+      };
+
+      const itemUpdate = await ItemModel.update(
+        {
+          quantity: dataItem.quantity
+        },
+        {
+          where: {
+            id_purc: data.id_purchase,
+            id_prod: data.id_product
+          }
+        }
+      );
+
+      const purchaseUpdate = await PurchaseModel.update(
+        {
+          discount: dataPurchase.discount,
+          gross_price: dataPurchase.gross_price,
+          net_price: dataPurchase.net_price
+        },
+        {
+          where: { id: data.id_purchase }
+        }
+      );
+    };
 
     status = 200;
-    message = returnFinal;
+    message = 'Item alterado!';
 
     return { status, message };
 
