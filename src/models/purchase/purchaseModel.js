@@ -33,6 +33,10 @@ const PurchaseModel = sequelize.define('purchase', {
   net_price: {
     type: DataTypes.FLOAT,
     allowNull: false,
+  },
+  shipping: {
+    type: DataTypes.FLOAT,
+    allowNull: true,
   }
 });
 

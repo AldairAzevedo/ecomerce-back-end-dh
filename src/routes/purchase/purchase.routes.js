@@ -4,14 +4,16 @@ import {
   createPurchaseController,
   listPurchaseController,
   finalizePurchaseController,
-  updatePurchaseController
+  updatePurchaseController,
+  deleteItemController
 } from "../../controllers/purchase/purcahseController.js";
 
 const purchaseRoute = Router();
 
 purchaseRoute.get("/list", listPurchaseController);
-purchaseRoute.patch("/update", updatePurchaseController);
 purchaseRoute.post("/add", createPurchaseController);
-purchaseRoute.post("/finalize", finalizePurchaseController);
+purchaseRoute.patch("/update", updatePurchaseController);
+purchaseRoute.patch("/finalize", finalizePurchaseController);
+purchaseRoute.delete("/delete", deleteItemController);
 
 export default purchaseRoute;

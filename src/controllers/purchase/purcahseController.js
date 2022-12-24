@@ -2,7 +2,8 @@ import {
   createPurchaseService,
   listPurchaseService,
   finalizePurchaseService,
-  updatePurchaseService
+  updatePurchaseService,
+  deleteItemService
 } from "../../services/purchase/purchaseService.js";
 
 export const createPurchaseController = async (req, res) => {
@@ -35,6 +36,15 @@ export const updatePurchaseController = async (req, res) => {
 export const finalizePurchaseController = async (req, res) => {
   try {
     const purchase = await finalizePurchaseService(req.body);
+    return res.status(purchase.status).json(purchase.message);
+  } catch (e) {
+    return res.status(400).json({ message: e.message });
+  };
+};
+
+export const deleteItemController = async (req, res) => {
+  try {
+    const purchase = await deleteItemService(req.body);
     return res.status(purchase.status).json(purchase.message);
   } catch (e) {
     return res.status(400).json({ message: e.message });
