@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from "dotenv";
 
 import UserModel from "../../models/user/userModels.js";
+import { messageErrors } from "../../errors/errors.js";
 
 dotenv.config();
 
@@ -22,7 +23,10 @@ export const createUserService = async (data) => {
     return { status, message };
 
   } catch (e) {
-    throw new Error(e);
+    const eJson = JSON.stringify(e);
+    const eObject = JSON.parse(eJson);
+    const error = messageErrors[eObject.errors[0].path];
+    throw new Error(error);
   }
 };
 
@@ -58,14 +62,13 @@ export const loginUserService = async (data) => {
       }
     } else {
       status = 404;
-      message = 'Erro desconhecido!';
+      message = 'Email ou senha incorretos!';
       return { status, message };
     }
   } catch (e) {
     throw new Error(e);
   }
 };
-
 
 export const listUsers = async () => {
   let status = 400;
@@ -84,41 +87,5 @@ export const listUsers = async () => {
     return { status, message };
   } catch (e) {
     throw new Error(e);
-  }
-};
-
-export const deleteUser = async (id) => {
-  try {
-    const result = await UserModel.destroy({
-      where: {
-        id: id
-      }
-    })
-
-    return result ? true : false;
-
-  } catch (e) {
-    throw new Error(e.message)
-  }
-};
-
-export const updateUser = async (id, data) => {
-  try {
-    await UserModel.update(data, {
-      where: {
-        id
-      }
-    })
-
-    const [user] = await UserModel.findAll({
-      where: {
-        id
-      }
-    })
-
-    return user;
-
-  } catch (e) {
-    throw new Error(e.message)
   }
 };
