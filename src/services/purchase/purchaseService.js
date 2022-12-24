@@ -1,4 +1,4 @@
-import {Op} from 'sequelize';
+import { Op } from 'sequelize';
 
 import PurchaseModel from '../../models/purchase/purchaseModel.js';
 import ItemModel from '../../models/items/itemsModel.js';
@@ -55,9 +55,9 @@ export const createPurchaseService = async (data) => {
         return item.id_prod === data.product.id;
       });
 
-      if (! verification) {
+      if (!verification) {
         const itemCreate = await ItemModel.create({
-          ... dataItem
+          ...dataItem
         });
 
         const purchaseUpdate = await PurchaseModel.update({
@@ -93,7 +93,7 @@ export const createPurchaseService = async (data) => {
       message = 'Produto adicionado no carrinho!';
     } else {
       const purchaseCreate = await PurchaseModel.create({
-        ... dataPurchase
+        ...dataPurchase
       });
 
       const purchaseJson = JSON.stringify(purchaseCreate);
@@ -102,14 +102,14 @@ export const createPurchaseService = async (data) => {
       dataItem.id_purc = purchaseObject.id;
 
       const itemCreate = await ItemModel.create({
-        ... dataItem
+        ...dataItem
       });
 
       status = 201;
       message = 'Produto adicionado no carrinho!';
     };
 
-    return {status, message};
+    return { status, message };
 
   } catch (e) {
     throw new Error(e);
@@ -195,7 +195,7 @@ export const listPurchaseService = async (data) => {
     status = 200;
     message = returnFinal;
 
-    return {status, message};
+    return { status, message };
 
   } catch (e) {
     throw new Error(e);
@@ -302,7 +302,7 @@ export const updatePurchaseService = async (data) => {
       const dataPurchase = {
         discount: purchaseObject[0].purchase.discount - purchaseObject[0].product.discount,
         gross_price: purchaseObject[0].purchase.gross_price - purchaseObject[0].product.price,
-        net_price: purchaseObject[0].purchase.net_price -(purchaseObject[0].product.price - purchaseObject[0].product.discount)
+        net_price: purchaseObject[0].purchase.net_price - (purchaseObject[0].product.price - purchaseObject[0].product.discount)
       };
 
       const itemUpdate = await ItemModel.update({
@@ -385,7 +385,7 @@ export const updatePurchaseService = async (data) => {
     status = 200;
     message = 'Item alterado!';
 
-    return {status, message};
+    return { status, message };
 
   } catch (e) {
     throw new Error(e);
@@ -418,19 +418,19 @@ export const finalizePurchaseService = async (data) => {
       const itemObject = JSON.parse(itemJson);
 
       itemObject.forEach(async item => {
-      const listProduct = await ProductModel.findAll({
+        const listProduct = await ProductModel.findAll({
           attributes: {
             exclude: ['id', 'name', 'description', 'price', 'discount', 'photo', 'active', 'createdAt', 'updatedAt', 'id_cat']
           },
           where: {
             id: item.id_prod
           }
-      });
+        });
 
-      const productJson = JSON.stringify(listProduct);
-      const productObject = JSON.parse(productJson);
+        const productJson = JSON.stringify(listProduct);
+        const productObject = JSON.parse(productJson);
 
-      const productUpdate = await ProductModel.update(
+        const productUpdate = await ProductModel.update(
           {
             inventory: productObject[0].inventory - item.quantity
           },
@@ -439,31 +439,32 @@ export const finalizePurchaseService = async (data) => {
               id: item.id_prod
             }
           }
-      );
+        );
       });
 
       const purchaseUpdate = await PurchaseModel.update(
-      {
+        {
           payment_type: data.payment_type,
           shipping: data.shipping,
           situation: 'CO'
-      },
-      {
+        },
+        {
           where: {
             id: data.id_purchase,
             situation: "CA"
           }
-      }
+        }
       );
 
       status = 200;
       message = 'Compra finalizada!';
+
     } else {
       status = 401;
       message = 'Esta compra já foi finalizada ou não existe!';
     };
 
-    return {status, message};
+    return { status, message };
 
   } catch (e) {
     throw new Error(e);
@@ -539,9 +540,9 @@ export const deleteItemService = async (data) => {
       const itemObject = JSON.parse(itemJson);
 
       const purchaseUpdate = await PurchaseModel.update({
-        discount: purchaseObject[0].discount -(itemObject[0].quantity * itemObject[0].product.discount),
-        gross_price: purchaseObject[0].gross_price -(itemObject[0].quantity * itemObject[0].product.price),
-        net_price: purchaseObject[0].net_price -(
+        discount: purchaseObject[0].discount - (itemObject[0].quantity * itemObject[0].product.discount),
+        gross_price: purchaseObject[0].gross_price - (itemObject[0].quantity * itemObject[0].product.price),
+        net_price: purchaseObject[0].net_price - (
           (itemObject[0].quantity * itemObject[0].product.price) - (itemObject[0].quantity * itemObject[0].product.discount)
         )
       }, {
@@ -594,7 +595,7 @@ export const deleteItemService = async (data) => {
       message = 'Produto não pode ser removido, pois a compra já foi finalizada ou não existe!';
     }
 
-    return {status, message};
+    return { status, message };
 
   } catch (e) {
     throw new Error(e);
