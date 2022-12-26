@@ -1,4 +1,4 @@
-import { Op } from 'sequelize';
+import { Sequelize, Op } from 'sequelize';
 
 import PurchaseModel from '../../models/purchase/purchaseModel.js';
 import ItemModel from '../../models/items/itemsModel.js';
@@ -594,6 +594,73 @@ export const deleteItemService = async (data) => {
       status = 401;
       message = 'Produto não pode ser removido, pois a compra já foi finalizada ou não existe!';
     }
+
+    return { status, message };
+
+  } catch (e) {
+    throw new Error(e);
+  };
+};
+
+export const listPurchaseFinalizededService = async (data) => {
+  let status = 400;
+  let message = '';
+
+  try {
+    const listItem = await ItemModel.findAll({
+      attributes: {
+        exclude: [
+          'updatedAt',
+          'createdAt',
+          'id_purc',
+          'id_prod',
+          'id'
+        ]
+      },
+      include: [
+        {
+          model: ProductModel,
+          attributes: {
+            exclude: [
+              'description',
+              'inventory',
+              'active',
+              'updatedAt',
+              'createdAt',
+              'id_cat'
+            ]
+          },
+          where: {
+            active: 'A'
+          },
+          required: true
+        },
+        {
+          model: PurchaseModel,
+          attributes: [
+            'id',
+            'discount',
+            'gross_price',
+            'net_price',
+            'shipping',
+            [Sequelize.literal(
+              `CASE 
+          WHEN payment_type = 'P' THEN 'PIX' 
+          WHEN payment_type = 'C' THEN 'CARTÃO'
+          ELSE 'BOLETO' 
+          END`), 'payment_type']
+          ],
+          where: {
+            id_user: data.id_user,
+            situation: 'CO'
+          },
+          required: true
+        }
+      ]
+    });
+
+    status = 200;
+    message = listItem;
 
     return { status, message };
 

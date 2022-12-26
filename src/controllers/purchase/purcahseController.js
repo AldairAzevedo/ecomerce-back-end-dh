@@ -3,7 +3,8 @@ import {
   listPurchaseService,
   finalizePurchaseService,
   updatePurchaseService,
-  deleteItemService
+  deleteItemService,
+  listPurchaseFinalizededService
 } from "../../services/purchase/purchaseService.js";
 
 export const createPurchaseController = async (req, res) => {
@@ -45,6 +46,15 @@ export const finalizePurchaseController = async (req, res) => {
 export const deleteItemController = async (req, res) => {
   try {
     const purchase = await deleteItemService(req.body);
+    return res.status(purchase.status).json(purchase.message);
+  } catch (e) {
+    return res.status(400).json({ message: e.message });
+  };
+};
+
+export const listPurchaseFinalizededController = async (req, res) => {
+  try {
+    const purchase = await listPurchaseFinalizededService(req.query);
     return res.status(purchase.status).json(purchase.message);
   } catch (e) {
     return res.status(400).json({ message: e.message });
