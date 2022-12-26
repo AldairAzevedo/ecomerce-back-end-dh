@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const createUserSchema = yup.object().shape({
   name: yup.string().required('Nome é obrigatório!').typeError('Digite um valor válido!'),

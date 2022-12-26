@@ -69,23 +69,3 @@ export const loginUserService = async (data) => {
     throw new Error(e);
   }
 };
-
-export const listUsers = async () => {
-  let status = 400;
-  let message = '';
-  try {
-    const listUsers = await UserModel.findAll({
-      where: {
-        active: "A"
-      },
-      attributes: {
-        exclude: ['createdAt', 'updatedAt', 'password']
-      }
-    });
-    status = 200;
-    message = listUsers;
-    return { status, message };
-  } catch (e) {
-    throw new Error(e);
-  }
-};

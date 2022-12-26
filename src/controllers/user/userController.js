@@ -1,7 +1,6 @@
 import {
   createUserService,
-  loginUserService,
-  listUsers
+  loginUserService
 } from "../../services/user/userService.js";
 
 export const createUserController = async (req, res) => {
@@ -17,15 +16,6 @@ export const loginUserController = async (req, res) => {
   try {
     const user = await loginUserService(req.body);
     return res.status(user.status).json(user.message);
-  } catch (e) {
-    return res.status(400).json({ message: e.message });
-  }
-};
-
-export const listUsersController = async (req, res) => {
-  try {
-    const users = await listUsers();
-    return res.status(users.status).json(users.message);
   } catch (e) {
     return res.status(400).json({ message: e.message });
   }
