@@ -8,7 +8,7 @@
 <p align="center">🚀 Esta é uma API REST do projeto integrador (PI) do curso de Dev Web Ful Stack da Digital House</p>
 
 <h4 align="center"> 
-	🚧 🚀 Em construção...  🚧
+	🚧 🚀 Em atualização...  🚧
 </h4>
 
 ### Pré-requisitos
